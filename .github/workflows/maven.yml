@@ -17,6 +17,11 @@ jobs:
       run: mvn test
     - name: Build with Maven
       run: mvn package war:war --file pom.xml
+    - uses: actions/upload-artifact@master
+      with:
+        name: bookstore
+        path: /home/runner/work/azure-bookstore/azure-bookstore/target/ROOT.war
+
   login:
     name: Login to Azure
     runs-on: ubuntu-latest
@@ -31,12 +36,6 @@ jobs:
   upload:
     name: Upload build artifact
     needs: build
-
-    steps:
-    - uses: actions/upload-artifact@master
-      with:
-        name: bookstore
-        path: /home/runner/work/azure-bookstore/azure-bookstore/target/ROOT.war
 
   deploy:
     name: Deploy to AZ App Services
