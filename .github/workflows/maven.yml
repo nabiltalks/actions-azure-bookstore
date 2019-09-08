@@ -45,9 +45,9 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: bookstore
-        path: ${GITHUB_WORKSPACE}
+        path: .
     - run: |
-        ls -la ${GITHUB_WORKSPACE}
+        ls -la .
     - uses: azure/appservice-actions/webapp@master
       with:
         package: "*.WAR"
