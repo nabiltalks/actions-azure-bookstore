@@ -19,14 +19,14 @@ jobs:
       #      run: mvn test
     - name: Package
       run: mvn package war:war --file pom.xml
-    - name: Save builds artifacts
-      uses: actions/upload-artifact@master
-      with:
-        name: bookstore
-        path: /home/runner/work/azure-bookstore/azure-bookstore/target/ROOT.war
+#    - name: Save builds artifacts
+#      uses: actions/upload-artifact@master
+#      with:
+#        name: bookstore
+#        path: /home/runner/work/azure-bookstore/azure-bookstore/target/ROOT.war
     - uses: azure/appservice-actions/webapp@master
       with:
-        package: "*.WAR"
+        package: /home/runner/work/azure-bookstore/azure-bookstore/target/ROOT.war
         app-name: githubookstore
         publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
 
