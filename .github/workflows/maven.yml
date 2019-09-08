@@ -45,11 +45,11 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: bookstore
-        path: ${{GITHUB_WORKSPACE}}
+        path: $GITHUB_WORKSPACE
     - run: |
-        ls -la ${{GITHUB_WORKSPACE}}
+        ls -la $GITHUB_WORKSPACE
     - uses: azure/appservice-actions/webapp@master
       with:
-        package: ${{GITHUB_WORKSPACE}}
+        package: $GITHUB_WORKSPACE
         app-name: githubookstore
         publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
