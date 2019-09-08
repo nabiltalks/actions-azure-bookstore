@@ -25,10 +25,10 @@ jobs:
         name: bookstore
         path: /home/runner/work/azure-bookstore/azure-bookstore/target/ROOT.war
     - uses: azure/appservice-actions/webapp@master
-        with:
-          package: "*.WAR"
-          app-name: githubookstore
-          publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
+      with:
+        package: "*.WAR"
+        app-name: githubookstore
+        publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
 
   login:
     name: Login to Azure
