@@ -4,7 +4,6 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
@@ -17,3 +16,14 @@ jobs:
       run: mvn test
     - name: Build with Maven
       run: mvn package --file pom.xml
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: azure/actions/login@master
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - run: |
+          az webapp list --query "[?state=='Running']"
+
