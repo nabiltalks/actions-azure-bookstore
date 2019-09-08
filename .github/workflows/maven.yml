@@ -16,9 +16,10 @@ jobs:
         java-version: 1.8
     - name: Unit tests
       run: mvn test
-    - name: Build with Maven
+    - name: Package
       run: mvn package war:war --file pom.xml
-    - uses: actions/upload-artifact@master
+    - name: Save builds artifacts
+      uses: actions/upload-artifact@master
       with:
         name: bookstore
         path: /home/runner/work/azure-bookstore/azure-bookstore/target/ROOT.war
@@ -46,6 +47,6 @@ jobs:
         path: ./ROOT.WAR
     - uses: azure/appservice-actions/webapp@master
       with:
-        package: ./ROOT.WAR
+        package: /home/runner/work/azure-bookstore/azure-bookstore/ROOT.WAR
         app-name: githubookstore
         publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
