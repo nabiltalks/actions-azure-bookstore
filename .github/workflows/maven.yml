@@ -22,19 +22,34 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: azure/actions/login@master
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - uses: azure/actions/login@master
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    - run: |
+        az webapp list --query "[?state=='Running']"
 
-      - run: |
-          az webapp list --query "[?state=='Running']"
+  upload:
+    name: Upload build artifact
+    needs: build
+
+    steps:
+    - uses: actions/upload-artifact@master
+      with:
+        name: bookstore
+        path: /home/runner/work/azure-bookstore/azure-bookstore/target/ROOT.war
+
   deploy:
     name: Deploy to AZ App Services
-    needs: [login,build]
+    needs: upload
     runs-on: ubuntu-latest
 
     steps:
+    - uses: actions/download-artifact@master
+      with:
+        name: bookstore
+        path: ./ROOT.WAR
     - uses: azure/appservice-actions/webapp@master
       with:
+        package: ./ROOT.WAR
         app-name: githubookstore
         publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
