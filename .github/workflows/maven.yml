@@ -46,7 +46,7 @@ jobs:
       with:
         name: bookstore
         path: ./ROOT.WAR
-      run: |
+    - run: |
         ls -la /home/runner/work/azure-bookstore/azure-bookstore/
     - uses: azure/appservice-actions/webapp@master
       with:
