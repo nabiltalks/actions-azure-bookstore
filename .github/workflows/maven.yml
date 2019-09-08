@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   build:
+    name: Build JAVA project
     runs-on: ubuntu-latest
 
     steps:
@@ -16,7 +17,8 @@ jobs:
       run: mvn test
     - name: Build with Maven
       run: mvn package --file pom.xml
-  deploy:
+  login:
+    name: Login to Azure
     runs-on: ubuntu-latest
 
     steps:
@@ -26,4 +28,15 @@ jobs:
 
       - run: |
           az webapp list --query "[?state=='Running']"
+  deploy:
+    name: Deploy to AZ App Services
+    needs: [login,build]
+    runs-on: ubuntu-latest
+
+      steps:
+      - uses: azure/appservice-actions/webapp@master
+        with:
+          app-name: githubookstore
+          publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
+
 
