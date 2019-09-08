@@ -45,7 +45,7 @@ jobs:
     - uses: actions/download-artifact@master
       with:
         name: bookstore
-        path: ./ROOT.WAR
+        path: /home/runner/work/azure-bookstore/azure-bookstore/ROOT.WAR
     - run: |
         ls -la /home/runner/work/azure-bookstore/azure-bookstore/
     - uses: azure/appservice-actions/webapp@master
