@@ -32,7 +32,8 @@ jobs:
     - uses: azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - run: |
+    - name: Confirm active apps
+      run: |
         az webapp list --query "[?state=='Running']"
 
   deploy:
@@ -45,6 +46,8 @@ jobs:
       with:
         name: bookstore
         path: ./ROOT.WAR
+      run: |
+        ls -la /home/runner/work/azure-bookstore/azure-bookstore/
     - uses: azure/appservice-actions/webapp@master
       with:
         package: /home/runner/work/azure-bookstore/azure-bookstore/ROOT.WAR
