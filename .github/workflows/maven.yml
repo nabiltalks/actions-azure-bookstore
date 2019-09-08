@@ -33,10 +33,8 @@ jobs:
     needs: [login,build]
     runs-on: ubuntu-latest
 
-      steps:
-      - uses: azure/appservice-actions/webapp@master
-        with:
-          app-name: githubookstore
-          publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
-
-
+    steps:
+    - uses: azure/appservice-actions/webapp@master
+      with:
+        app-name: githubookstore
+        publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
