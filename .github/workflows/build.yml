@@ -23,32 +23,3 @@ jobs:
       with:
         name: ROOT.war
         path: /home/runner/work/azure-bookstore/azure-bookstore/target/ROOT.war
-
-  login:
-    name: Login to Azure
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: azure/actions/login@master
-      with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
-    - name: Confirm active apps
-      run: |
-        az webapp list --query "[?state=='Running']"
-
-  deploy:
-    name: Deploy to AZ App Services
-    needs: [build,login]
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/download-artifact@master
-      with:
-        name: ROOT.war
-        path: .
-    - uses: azure/appservice-actions/webapp@master
-      with:
-        # Should be ${GITHUB_WORKPLACE/ROOT.WAR}
-        package: /home/runner/work/azure-bookstore/azure-bookstore/ROOT.war
-        app-name: githubookstore
-        publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
