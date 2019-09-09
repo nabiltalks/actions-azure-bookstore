@@ -6,7 +6,6 @@ DEPLOYMENT_STATUS_URL=$(jq -r .deployment.statuses_url $GITHUB_EVENT_PATH)
 DEPLOYMENT_ENVIRONMENT=$(jq -r .deployment.environment $GITHUB_EVENT_PATH)
 
 DESCRIPTION="Deployed in $DEPLOYMENT_ENVIRONMENT"
-TARGET_URL="http://githubookstore.azurewebsites.net/"
 
 JSON_STRING=$( jq -n \
                   --arg desc "$DESCRIPTION" \

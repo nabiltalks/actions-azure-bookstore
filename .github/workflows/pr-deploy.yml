@@ -30,7 +30,7 @@ jobs:
     steps:
     - uses: azure/actions/login@master
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS }}
+        creds: ${{ secrets.AZURE_CREDENTIALS_QA }}
     - name: Confirm active apps
       run: |
         az webapp list --query "[?state=='Running']"
@@ -50,7 +50,7 @@ jobs:
         # Should be ${GITHUB_WORKPLACE/ROOT.WAR}
         package: /home/runner/work/azure-bookstore/azure-bookstore/ROOT.war
         app-name: githubookstore
-        publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
+        publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE_QA }}
 
   deployment-status:
     name: Update the deployment status
@@ -63,3 +63,4 @@ jobs:
       run: ./.github/scripts/udpate-deployment-status.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TARGET_URL: http://qa-githubookstore.azurewebsites.net/
