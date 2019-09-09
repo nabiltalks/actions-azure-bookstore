@@ -56,8 +56,9 @@ jobs:
     name: Update the deployment status
     needs: [deploy]
     runs-on: ubuntu-latest
-    
+
     steps:
+    - uses: actions/checkout@v1
     - name: Get Deployments
       run: ./.github/scripts/get-deployments.sh
       env:
