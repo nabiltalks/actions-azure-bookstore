@@ -58,10 +58,6 @@ jobs:
 
     steps:
     - name: Get Deployments
-      uses: actions/bin/curl@master
+      run: curl -v -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/repos/${GITHUB_REPOSITORY}/deployments?ref=$(echo $GITHUB_REF | cut -f3 -d "/") > $HOME/deployments.json
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        args: '-v "-H \"Authorization: token ${{ GITHUB_TOKEN }}\"" "https://api.github.com/repos/${{
-          github.repository }}/deployments?ref=$(echo ${{ GITHUB_REF }} | cut -f3
-          -d\"/\")" "> $HOME/deployments.json"'
