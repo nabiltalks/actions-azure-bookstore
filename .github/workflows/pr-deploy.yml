@@ -59,7 +59,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: Get Deployments
-      run: ./.github/scripts/get-deployments.sh
+    - name: Set deployment status
+      run: ./.github/scripts/udpate-deployment-status.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
