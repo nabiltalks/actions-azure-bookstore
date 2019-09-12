@@ -1,6 +1,8 @@
 # Reading Time
 Reading Time is a web application that lists staff recommended books.
 
+[![Azure Board](https://user-images.githubusercontent.com/18029382/64772591-2c12af00-d551-11e9-918d-015356ab340f.png)](https://dev.azure.com/GitHubBookStore/Book%20Store%20App/_workitems/recentlyupdated/)
+
 ## Installing
 
 ### Prerequisites
