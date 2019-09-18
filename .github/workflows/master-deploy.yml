@@ -17,10 +17,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Unit tests
-      run: mvn test
-    - name: Package
-      run: mvn package war:war --file pom.xml -Dmaven.test.skip=true
+    - name: Test and Package        
+      run: mvn package war:war --file pom.xml
     - name: Save builds artifacts
       uses: actions/upload-artifact@master
       with:
@@ -50,8 +48,7 @@ jobs:
         name: ROOT.war
         path: .
     - uses: azure/appservice-actions/webapp@master
-      with:
-        # Should be ${GITHUB_WORKPLACE/ROOT.WAR}
+      with:        
         package: /home/runner/work/azure-bookstore/azure-bookstore/ROOT.war
         app-name: githubookstore
         publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE }}
