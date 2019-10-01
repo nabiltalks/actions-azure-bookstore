@@ -22,7 +22,7 @@ jobs:
     - name: Publish to GitHub Package Registry
       env:
         DOCKER_TOKEN: ${{secrets.GPR_TOKEN}}
-        DOCKER_USER: bitoiu
+        DOCKER_USER: <token>
       run: |
         docker login docker.pkg.github.com -u $DOCKER_USER -p $DOCKER_TOKEN
         docker push docker.pkg.github.com/$GITHUB_REPOSITORY/bookstore:$GITHUB_SHA
