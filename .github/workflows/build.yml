@@ -20,8 +20,6 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag docker.pkg.github.com/$GITHUB_REPOSITORY/bookstore:$GITHUB_SHA
     - name: Publish to GitHub Package Registry
-      env:
-        DOCKER_USERNAME: bitoiu
       run: |
         docker login docker.pkg.github.com -u <token> -p ${{GITHUB_TOKEN}}
         docker push docker.pkg.github.com/$GITHUB_REPOSITORY/bookstore:$GITHUB_SHA
