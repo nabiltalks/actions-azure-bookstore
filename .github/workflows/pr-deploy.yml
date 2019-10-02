@@ -25,8 +25,12 @@ jobs:
         RESOURCE_GROUP: bookstore
         APP_SERVICE_PLAN: bookstore-app-service-plan
         WEBAPP_NAME_PREFIX: bookstore-review
+        DOCKER_USERNAME: <token>
+        DOCKER_PASSWORD: ${{secrets.GPR_TOKEN}}
+        DOCKER_REGISTRY_URL: docker.pkg.github.com
       run: |
-        az webapp create --resource-group $RESOURCE_GROUP --plan $APP_SERVICE_PLAN --name $WEBAPP_NAME_PREFIX-$GITHUB_SHA --deployment-container-image-name docker.pkg.github.com/$GITHUB_REPOSITORY/bookstore:$GITHUB_SHA --output json > $HOME/azure_webapp_creation.json
+        az webapp create --resource-group $RESOURCE_GROUP --plan $APP_SERVICE_PLAN --name $WEBAPP_NAME_PREFIX-$GITHUB_SHA --output json > $HOME/azure_webapp_creation.json
+        az webapp config container set --resource-group $RESOURCE_GROUP --plan $APP_SERVICE_PLAN --name $WEBAPP_NAME_PREFIX-$GITHUB_SHA --docker-registry-server-password $DOCKER_PASSWORD --docker-registry-server-user $DOCKER_USERNAME --docker-registry-server-url $DOCKER_REGISTRY_URL
     - name: Confirm active apps
       run: |
         az webapp list --query "[?state=='Running']"
