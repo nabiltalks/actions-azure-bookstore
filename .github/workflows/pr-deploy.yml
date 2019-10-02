@@ -35,7 +35,8 @@ jobs:
     - name: Confirm active apps
       run: |
         az webapp list --query "[?state=='Running']"
-    - name: Deploy
+
+    - name: Deploy the container
       uses: azure/appservice-actions/webapp-container@master
       env:
         WEBAPP_NAME_PREFIX: bookstore-review
