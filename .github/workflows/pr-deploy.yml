@@ -32,6 +32,8 @@ jobs:
         az webapp list --query "[?state=='Running']"
     - name: Deploy
       uses: azure/appservice-actions/webapp-container@master
+      env:
+        WEBAPP_NAME_PREFIX: bookstore-review
       with:
         app-name: $WEBAPP_NAME_PREFIX-${GITHUB_SHA:0:7}
         images: docker.pkg.github.com/$GITHUB_REPOSITORY/bookstore:$GITHUB_SHA
