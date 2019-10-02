@@ -54,7 +54,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>bookstore</finalName>
+        <finalName>reading-time-app</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -143,16 +143,17 @@
                     <debug>true</debug>
                 </configuration>
             </plugin>
+            <!-- Do we need this??? -->
             <plugin>
-		<groupId>com.heroku.sdk</groupId>
-		<artifactId>heroku-maven-plugin</artifactId>
-		<version>1.1.3</version>
-                  <configuration>
-                           <includes>
-                                    <include>src/main/webapp</include>
-                           </includes>
-                  </configuration>
-	   </plugin>
+              <groupId>com.heroku.sdk</groupId>
+          		<artifactId>heroku-maven-plugin</artifactId>
+          		<version>1.1.3</version>
+              <configuration>
+                <includes>
+                  <include>src/main/webapp</include>
+                </includes>
+              </configuration>
+          	</plugin>
         </plugins>
     </build>
     <reporting>
@@ -184,27 +185,27 @@
         </plugins>
     </reporting>
     <description>A Java example project to demonstrate a Java development stack with Maven, Travis CI and Heroku deployments.</description>
+    <!-- This whole section needs a refresh -->
     <distributionManagement>
-  	<repository>
-		<id>central</id>
-		<name>githubdemo-releases</name>
-        	<url>https://githubdemo.jfrog.io/githubdemo/libs-release-local</url>
-    	</repository>
-	<snapshotRepository>
-		<id>snapshots</id>
-		<name>githubdemo-snapshots</name>
-		<url>https://githubdemo.jfrog.io/githubdemo/libs-snapshot-local</url>
-	</snapshotRepository>
+    	<repository>
+    		<id>central</id>
+    		<name>githubdemo-releases</name>
+        <url>https://githubdemo.jfrog.io/githubdemo/libs-release-local</url>
+      </repository>
+      <snapshotRepository>
+    		<id>snapshots</id>
+    		<name>githubdemo-snapshots</name>
+    		<url>https://githubdemo.jfrog.io/githubdemo/libs-snapshot-local</url>
+  	  </snapshotRepository>
     </distributionManagement>
     <ciManagement>
-        <system>Travis CI</system>
-        <url>https://travisci.octodemoapps.com/office-tools/reading-time-app</url>
+      <system>Travis CI</system>
+      <url>https://travisci.octodemoapps.com/office-tools/reading-time-app</url>
     </ciManagement>
     <issueManagement>
-        <url>https://octodemo.com/baseline/reading-time-demo/issues</url>
-        <system>GitHub Issues</system>
+      <url>https://octodemo.com/baseline/reading-time-demo/issues</url>
+      <system>GitHub Issues</system>
     </issueManagement>
-
     <profiles>
 	<profile>
 		<id>coverage-per-test</id>
