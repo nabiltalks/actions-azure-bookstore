@@ -31,6 +31,7 @@ jobs:
       run: |
         az webapp create --resource-group $RESOURCE_GROUP --plan $APP_SERVICE_PLAN --name $WEBAPP_NAME_PREFIX-$GITHUB_SHA --output json > $HOME/azure_webapp_creation.json
         az webapp config container set --resource-group $RESOURCE_GROUP --plan $APP_SERVICE_PLAN --name $WEBAPP_NAME_PREFIX-$GITHUB_SHA --docker-registry-server-password $DOCKER_PASSWORD --docker-registry-server-user $DOCKER_USERNAME --docker-registry-server-url $DOCKER_REGISTRY_URL
+        
     - name: Confirm active apps
       run: |
         az webapp list --query "[?state=='Running']"
