@@ -5,56 +5,40 @@ on:
 
 jobs:
 
-  build:
-    name: Build
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v1
-    - name: Set up JDK 1.8
-      uses: actions/setup-java@v1
-      with:
-        java-version: 1.8
-    - name: Package
-      run: mvn package war:war --file pom.xml -Dmaven.test.skip=true
-    - name: Save builds artifacts
-      uses: actions/upload-artifact@master
-      with:
-        name: ROOT.war
-        path: /home/runner/work/azure-bookstore/azure-bookstore/target/ROOT.war
-
   login:
     name: Login to Azure
     runs-on: ubuntu-latest
 
     steps:
-    - uses: azure/actions/login@master
+    - name: Login
+      uses: azure/actions/login@master
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_QA }}
+        creds: ${{ secrets.AZURE_CREDENTIALS_REVIEW }}
+
+  provision:
+    name: Provision the Azure WebApp
+    needs: login
+    runs-on: ubuntu-latest
+
+    steps:
     - name: Confirm active apps
       run: |
         az webapp list --query "[?state=='Running']"
 
   deploy:
     name: Deploy to AZ App Services
-    needs: [build,login]
+    needs: provision
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/download-artifact@master
+    - uses: azure/appservice-actions/webapp-container@master
       with:
-        name: ROOT.war
-        path: .
-    - uses: azure/appservice-actions/webapp@master
-      with:
-        # Should be ${GITHUB_WORKPLACE/ROOT.WAR}
-        package: /home/runner/work/azure-bookstore/azure-bookstore/ROOT.war
-        app-name: githubookstore
-        publish-profile: ${{ secrets.AZURE_WEB_APP_PUBLISH_PROFILE_QA }}
+        app-name: 'bookstore'
+        images: docker.pkg.github.com/$GITHUB_REPOSITORY/bookstore:$GITHUB_SHA
 
   deployment-status:
     name: Update the deployment status
-    needs: [deploy]
+    needs: deploy
     runs-on: ubuntu-latest
 
     steps:
