@@ -11,6 +11,16 @@ Reading Time requires Java and [Maven](https://maven.apache.org/). It uses an em
 mvn --version
 ```
 
+Create a `bookstore` resource group and a `bookstore-app-service-plan` service plan in Azure.
+
+Run the following command (need to log in Azure first) and use the JSON output has the value of the `AZURE_CREDENTIALS_REVIEW` secret
+
+```
+az ad sp create-for-rbac --name "bookstore-review" --role contributor \
+                                --scopes /subscriptions/$AZURE_SUBSCRIPTION_ID/resourceGroups/$AZURE_RESOURCE_GROUP \
+                                --sdk-auth
+```
+
 ### Running
 
 To run the application:
