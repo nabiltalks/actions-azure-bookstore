@@ -15,11 +15,11 @@ jobs:
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_REVIEW }}
     - name: Login to GitHub Package Registry
-      env:
-        DOCKER_TOKEN: ${{secrets.GPR_TOKEN}}
-        DOCKER_USER: <token>
-      run: |
-        docker login docker.pkg.github.com -u $DOCKER_USER -p $DOCKER_TOKEN
+      uses: azure/container-actions/docker-login@master
+      with:
+        login-server: docker.pkg.github.com
+        username: <token>
+        password: ${{secrets.GPR_TOKEN}}
     - name: Create the review app
       env:
         RESOURCE_GROUP: bookstore
