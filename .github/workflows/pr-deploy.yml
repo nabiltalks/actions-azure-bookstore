@@ -1,4 +1,4 @@
-name: Build and Deploy a PR
+name: Deploy a review app on Azure
 
 on:
   deployment
@@ -33,7 +33,7 @@ jobs:
     - name: Deploy
       uses: azure/appservice-actions/webapp-container@master
       with:
-        app-name: 'bookstore'
+        app-name: $WEBAPP_NAME_PREFIX-${GITHUB_SHA:0:7}
         images: docker.pkg.github.com/$GITHUB_REPOSITORY/bookstore:$GITHUB_SHA
 
   deployment-status:
