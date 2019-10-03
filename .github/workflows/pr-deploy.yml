@@ -11,8 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Create the review app
-      run: echo ${{ toJSON(github.event) }}
+    - name: Debug
+      run: echo "${{ toJSON(github.event.deployment.environment) }}"
     - name: Login to Azure
       uses: azure/actions/login@master
       with:
