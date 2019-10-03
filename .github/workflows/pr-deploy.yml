@@ -7,12 +7,10 @@ jobs:
 
   deploy_to_test:
     name: Deploy a review app on Azure
-#    if: github.event.environment == 'qa'
+    if: github.event.deployment.environment == 'qa'
     runs-on: ubuntu-latest
 
     steps:
-    - name: Debug
-      run: echo "${{ toJSON(github.event.deployment.environment) }}"
     - name: Login to Azure
       uses: azure/actions/login@master
       with:
