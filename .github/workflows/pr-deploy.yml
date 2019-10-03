@@ -12,7 +12,7 @@ jobs:
 
     steps:
     - name: Create the review app
-      run: echo ${{ github.event }}
+      run: echo ${{ toJSON(github.event) }}
     - name: Login to Azure
       uses: azure/actions/login@master
       with:
