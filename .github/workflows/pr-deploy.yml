@@ -11,19 +11,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Debug
-      if: github.event.deployment.environment == 'qa'
-      run: echo "${{ toJSON(github.event.deployment.environment) }}"
     - name: Login to Azure
       uses: azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_REVIEW }}
+
     - name: Login to GitHub Package Registry
       uses: azure/container-actions/docker-login@master
       with:
         login-server: docker.pkg.github.com
         username: <token>
         password: ${{secrets.GPR_TOKEN}}
+
     - name: Create the review app
       env:
         RESOURCE_GROUP: bookstore
@@ -36,10 +35,6 @@ jobs:
         az webapp create --resource-group $RESOURCE_GROUP --plan $APP_SERVICE_PLAN --name $WEBAPP_NAME_PREFIX-$GITHUB_SHA --deployment-container-image-name docker.pkg.github.com/$GITHUB_REPOSITORY/bookstore:$GITHUB_SHA
         az webapp config container set --resource-group $RESOURCE_GROUP --name $WEBAPP_NAME_PREFIX-$GITHUB_SHA --docker-registry-server-password $DOCKER_PASSWORD --docker-registry-server-user $DOCKER_USERNAME --docker-registry-server-url $DOCKER_REGISTRY_URL
 
-    - name: Confirm active apps
-      run: |
-        az webapp list --query "[?state=='Running']"
-
     - name: Deploy the container
       uses: azure/appservice-actions/webapp-container@master
       env:
@@ -48,13 +43,6 @@ jobs:
         app-name: ${{ format('{0}-{1}', 'bookstore-review', github.sha) }}
         images: ${{ format('{0}/{1}/{2}:{3}', 'docker.pkg.github.com', github.repository, 'bookstore', github.sha) }}
 
-  deployment-status:
-    name: Update the deployment status
-    needs: deploy_to_test
-    runs-on: ubuntu-latest
-
-    steps:
-    - uses: actions/checkout@v1
     - name: Set deployment status
       run: ./.github/scripts/udpate-deployment-status.sh
       env:
