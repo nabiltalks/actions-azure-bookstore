@@ -1,4 +1,6 @@
-FROM tomcat:8.0.20-jre8
+FROM openjdk:14-jdk-alpine
 
-RUN mkdir /usr/local/tomcat/webapps/myapp
-COPY ${GITHUB_WORKSPACE}/target/reading-time-app.war /usr/local/tomcat/webapps/ROOT.war
+RUN mkdir /usr/local/bookstore
+COPY . /usr/local/bookstore
+WORKDIR /usr/local/bookstore
+CMD ["sh","target/bin/webapp"]
