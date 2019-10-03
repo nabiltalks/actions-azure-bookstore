@@ -7,7 +7,6 @@ jobs:
 
   deploy_to_test:
     name: Deploy a review app on Azure
-    if: github.event.environment == 'qa'
     runs-on: ubuntu-latest
 
     steps:
