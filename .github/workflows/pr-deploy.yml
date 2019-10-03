@@ -55,4 +55,4 @@ jobs:
       run: ./.github/scripts/udpate-deployment-status.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        TARGET_URL: http://qa-githubookstore.azurewebsites.net/
+        TARGET_URL: ${{ format('https://bookstore-review-{0}.azurewebsites.net', github.sha) }}
