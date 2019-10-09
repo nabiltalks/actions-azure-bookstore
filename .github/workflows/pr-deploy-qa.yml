@@ -1,4 +1,4 @@
-name: Deploy a review app on Azure
+name: Deploy to QA on Azure
 
 on:
   deployment

@@ -6,7 +6,7 @@ on:
 jobs:
 
   deploy_to_test:
-    name: Deploy a review app on Azure
+    name: Deploy
     if: github.event.deployment.environment == 'test'
     runs-on: ubuntu-latest
 
