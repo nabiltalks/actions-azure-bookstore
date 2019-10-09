@@ -6,6 +6,7 @@
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <url>https://octodemo.com/office-tools/reading-time-app</url>
+    <description>A Java example project to demonstrate a Java development stack with Maven, GitHub Actions, GitHub Package Registry and Azure.</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -143,17 +144,6 @@
                     <debug>true</debug>
                 </configuration>
             </plugin>
-            <!-- Do we need this??? -->
-            <plugin>
-              <groupId>com.heroku.sdk</groupId>
-          		<artifactId>heroku-maven-plugin</artifactId>
-          		<version>1.1.3</version>
-              <configuration>
-                <includes>
-                  <include>src/main/webapp</include>
-                </includes>
-              </configuration>
-          	</plugin>
         </plugins>
     </build>
     <reporting>
@@ -184,26 +174,15 @@
             </plugin>
         </plugins>
     </reporting>
-    <description>A Java example project to demonstrate a Java development stack with Maven, Travis CI and Heroku deployments.</description>
     <!-- This whole section needs a refresh -->
     <distributionManagement>
     	<repository>
-    		<id>central</id>
-    		<name>githubdemo-releases</name>
-        <url>https://githubdemo.jfrog.io/githubdemo/libs-release-local</url>
+    		<id>GPR_TOKEN</id>
+    		<name>octodemo/azure-bookstore/bookstore</name>
+        <url>https://docker.pkg.github.com</url>
       </repository>
-      <snapshotRepository>
-    		<id>snapshots</id>
-    		<name>githubdemo-snapshots</name>
-    		<url>https://githubdemo.jfrog.io/githubdemo/libs-snapshot-local</url>
-  	  </snapshotRepository>
-    </distributionManagement>
-    <ciManagement>
-      <system>Travis CI</system>
-      <url>https://travisci.octodemoapps.com/office-tools/reading-time-app</url>
-    </ciManagement>
     <issueManagement>
-      <url>https://octodemo.com/baseline/reading-time-demo/issues</url>
+      <url>https://github.com/octodemo/azure-bookstore/issues</url>
       <system>GitHub Issues</system>
     </issueManagement>
     <profiles>
