@@ -1,0 +1,29 @@
+name: Deploy a review app on Azure
+
+on:
+  deployment
+
+jobs:
+
+  deploy_to_test:
+    name: Deploy a review app on Azure
+    if: github.event.deployment.environment == 'qa'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Login to Azure
+      uses: azure/actions/login@master
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS_REVIEW }}
+
+    - name: Deploy the container
+      uses: azure/appservice-actions/webapp-container@master
+      with:
+        app-name: bookstore-qa
+        images: ${{ format('{0}/{1}/{2}:{3}', 'docker.pkg.github.com', github.repository, 'bookstore', github.sha) }}
+
+    - name: Set deployment status
+      run: ./.github/scripts/udpate-deployment-status.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TARGET_URL: https://bookstore-qa.azurewebsites.net
