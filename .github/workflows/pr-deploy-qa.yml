@@ -6,11 +6,13 @@ on:
 jobs:
 
   deploy_to_test:
-    name: Deploy a review app on Azure
+    name: Deploy to QA on Azure
     if: github.event.deployment.environment == 'qa'
     runs-on: ubuntu-latest
 
     steps:
+    - name: Checking out the code
+      uses: actions/checkout@v1
     - name: Login to Azure
       uses: azure/actions/login@master
       with:
