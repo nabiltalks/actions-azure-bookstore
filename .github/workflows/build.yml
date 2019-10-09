@@ -1,11 +1,14 @@
-name: Build Branch
+name: Build Feature Branch
 
-on: [push]
+on:
+  push:
+    branches-ignore:
+    - master
 
 jobs:
 
   build:
-    name: Build and Test
+    name: Build, Test and Package
     runs-on: ubuntu-latest
 
     steps:
