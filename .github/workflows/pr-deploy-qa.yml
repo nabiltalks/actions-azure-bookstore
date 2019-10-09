@@ -5,8 +5,8 @@ on:
 
 jobs:
 
-  deploy_to_test:
-    name: Deploy to QA on Azure
+  deploy:
+    name: Deploy
     if: github.event.deployment.environment == 'qa'
     runs-on: ubuntu-latest
 

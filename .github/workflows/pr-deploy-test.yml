@@ -5,7 +5,7 @@ on:
 
 jobs:
 
-  deploy_to_test:
+  deploy:
     name: Deploy
     if: github.event.deployment.environment == 'test'
     runs-on: ubuntu-latest
