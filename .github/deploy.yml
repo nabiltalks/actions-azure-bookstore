@@ -9,10 +9,10 @@ labels:
     description: QA deployment
     transient_environment: false
     auto_merge: false
-    required_contexts: ['Build and Test']
+    required_contexts: ['Build, Test and Package']
   Deploy%20to%20Test:
     environment: test
     description: Deployment to the test lab
     transient_environment: true
     auto_merge: false
-    required_contexts: ['Build and Test']
+    required_contexts: ['Build, Test and Package']
