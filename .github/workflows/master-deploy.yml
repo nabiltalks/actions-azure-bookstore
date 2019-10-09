@@ -1,15 +1,14 @@
-name: Build, Test and Deploy
+name: Build, Test, Package and Deploy to Production
 
 on:
   push:
     branches:
       - master
-      - move-prod-to-docker
 
 jobs:
 
   build:
-    name: Build and Test
+    name: Build, Test and Package
     runs-on: ubuntu-latest
 
     steps:
