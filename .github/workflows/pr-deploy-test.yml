@@ -1,0 +1,45 @@
+name: Deploy a review app on Azure
+
+on:
+  deployment
+
+jobs:
+
+  deploy_to_test:
+    name: Deploy
+    if: github.event.deployment.environment == 'test'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checking out the code
+      uses: actions/checkout@v1
+    - name: Login to Azure
+      uses: azure/actions/login@master
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS_REVIEW }}
+
+    - name: Create the review app
+      env:
+        RESOURCE_GROUP: bookstore
+        APP_SERVICE_PLAN: bookstore-app-service-plan
+        WEBAPP_NAME_PREFIX: bookstore-review
+        DOCKER_USERNAME: <token>
+        DOCKER_PASSWORD: ${{secrets.GPR_TOKEN}}
+        DOCKER_REGISTRY_URL: docker.pkg.github.com
+      run: |
+        az webapp create --resource-group $RESOURCE_GROUP --plan $APP_SERVICE_PLAN --name $WEBAPP_NAME_PREFIX-$GITHUB_SHA --deployment-container-image-name docker.pkg.github.com/$GITHUB_REPOSITORY/bookstore:$GITHUB_SHA
+        az webapp config container set --resource-group $RESOURCE_GROUP --name $WEBAPP_NAME_PREFIX-$GITHUB_SHA --docker-registry-server-password $DOCKER_PASSWORD --docker-registry-server-user $DOCKER_USERNAME --docker-registry-server-url $DOCKER_REGISTRY_URL
+
+    - name: Deploy the container
+      uses: azure/appservice-actions/webapp-container@master
+      env:
+        WEBAPP_NAME_PREFIX: bookstore-review
+      with:
+        app-name: ${{ format('{0}-{1}', 'bookstore-review', github.sha) }}
+        images: ${{ format('{0}/{1}/{2}:{3}', 'docker.pkg.github.com', github.repository, 'bookstore', github.sha) }}
+
+    - name: Set deployment status
+      run: ./.github/scripts/udpate-deployment-status.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TARGET_URL: ${{ format('https://bookstore-review-{0}.azurewebsites.net', github.sha) }}
