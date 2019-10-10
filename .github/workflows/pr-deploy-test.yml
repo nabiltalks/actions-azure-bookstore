@@ -13,6 +13,8 @@ jobs:
     steps:
     - name: Checking out the code
       uses: actions/checkout@v1
+    - name: logging
+      run: cat $GITHUB_EVENT_PATH
     - name: Login to Azure
       uses: azure/actions/login@master
       with:
@@ -40,7 +42,7 @@ jobs:
         images: ${{ format('{0}/{1}/{2}:{3}', 'docker.pkg.github.com', github.repository, 'bookstore', github.sha) }}
 
     - name: Set deployment status
-      run: ./.github/scripts/udpate-deployment-status.sh
+      run: ./.github/scripts/deployment-status-success.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TARGET_URL: ${{ format('https://bookstore-review-{0}.azurewebsites.net', github.sha) }}

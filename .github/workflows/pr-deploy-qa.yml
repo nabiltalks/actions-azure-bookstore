@@ -25,7 +25,7 @@ jobs:
         images: ${{ format('{0}/{1}/{2}:{3}', 'docker.pkg.github.com', github.repository, 'bookstore', github.sha) }}
 
     - name: Set deployment status
-      run: ./.github/scripts/udpate-deployment-status.sh
+      run: ./.github/scripts/deployment-status-success.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TARGET_URL: https://bookstore-qa.azurewebsites.net
