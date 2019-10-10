@@ -13,23 +13,22 @@ jobs:
     steps:
     - name: Checking out the code
       uses: actions/checkout@v1
+
     - name: Delete deployments
       env:
         GITHUB_HEAD_REF: ${{ github.head_ref }}
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       run: ./.github/scripts/delete-deployments.sh
+
     - name: Login to Azure
       uses: azure/actions/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS_REVIEW }}
+
     - name: Delete the review apps
       env:
         RESOURCE_GROUP: bookstore
-        APP_SERVICE_PLAN: bookstore-app-service-plan
-        WEBAPP_NAME_PREFIX: bookstore-review
-        GITHUB_HEAD_REF: ${{ format('refs/heads/{0}', github.head_ref) }}
+        QUERY: ${{ format('[?tags.ref==''{0}''&&tags.type==''{1}'']', github.head_ref, 'review') }}
       run: |
-        az webapp list --resource-group $RESOURCE_GROUP --query "[?tags.ref=='$GITHUB_HEAD_REF'&&tags.type=='review']" > webapp-list.json
-        filesize=$(wc -c < webapp-list.json); if [ "$filesize" -eq 3 ]; then exit 0; fi
-        jq -j '.[].id+ " "' webapp-list.json
-        WEBAPP_ID_LIST=$(jq -j '.[].id+" "' webapp-list.json) && az webapp delete --ids $WEBAPP_ID_LIST --keep-empty-plan
+        az webapp list --resource-group $RESOURCE_GROUP --query "$QUERY" > webapplist.json
+        WEBAPP_ID_LIST=$(jq -j '.[].id+" "' webapplist.json) && echo $WEBAPP_ID_LIST && az webapp delete --ids $WEBAPP_ID_LIST --keep-empty-plan
