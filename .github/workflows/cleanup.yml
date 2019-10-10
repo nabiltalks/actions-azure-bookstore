@@ -30,4 +30,6 @@ jobs:
         GITHUB_HEAD_REF: ${{ format('refs/heads/{0}', github.head_ref) }}
       run: |
         az webapp list --resource-group $RESOURCE_GROUP --query "[?tags.ref=='$GITHUB_HEAD_REF'&&tags.type=='review']" > webapp-list.json
-        filesize=$(wc -c < webapp-list.json); if [ "$filesize" -ne 3 ]; then jq -j '.[].id+ " "' webapp-list.json | xargs az webapp delete --keep-empty-plan --ids; fi
+        filesize=$(wc -c < webapp-list.json); if [ "$filesize" -eq 3 ]; then exit 0; fi
+        jq -j '.[].id+ " "' webapp-list.json
+        WEBAPP_ID_LIST=$(jq -j '.[].id+" "' webapp-list.json) && az webapp delete --ids $WEBAPP_ID_LIST --keep-empty-plan
