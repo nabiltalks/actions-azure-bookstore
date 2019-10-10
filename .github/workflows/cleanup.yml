@@ -13,7 +13,7 @@ jobs:
     steps:
     - name: Checking out the code
       uses: actions/checkout@v1
-    - name: Get deployments
+    - name: Delete deployments
       run: ./.github/scripts/delete-deployments.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -28,5 +28,4 @@ jobs:
         WEBAPP_NAME_PREFIX: bookstore-review
       run: |
         az webapp list --resource-group $RESOURCE_GROUP --query "[?tags.ref=='$GITHUB_REF'&&tags.type=='review']" > webapp-list.json
-        WEBAPP_ID_LIST=$(jq -j '.[].id+ " "' webapp-list.json)
-        az webapp delete --ids $WEBAPP_ID_LIST --keep-empty-plan
+        filesize=$(wc -c < webapp-list.json); if [ "$filesize" -ne 3 ]; then jq -j '.[].id+ " "' webapp-list.json | xargs az webapp delete --keep-empty-plan --ids; fi
