@@ -1,0 +1,32 @@
+name: Cleanup
+
+on:
+  pull_request:
+    types: [closed]
+
+jobs:
+
+  clean:
+    name: Cleanup Review apps
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checking out the code
+      uses: actions/checkout@v1
+    - name: Get deployments
+      run: ./.github/scripts/delete-deployments.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    - name: Login to Azure
+      uses: azure/actions/login@master
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS_REVIEW }}
+    - name: Delete the review apps
+      env:
+        RESOURCE_GROUP: bookstore
+        APP_SERVICE_PLAN: bookstore-app-service-plan
+        WEBAPP_NAME_PREFIX: bookstore-review
+      run: |
+        az webapp list --resource-group $RESOURCE_GROUP --query \"[?tags.ref=='$GITHUB_REF']\" > webapp-list.json
+        WEBAPP_ID_LIST=$(jq -j '.[].id+ " "' webapp-list.json)
+        az webapp delete --ids $WEBAPP_ID_LIST --keep-empty-plan
