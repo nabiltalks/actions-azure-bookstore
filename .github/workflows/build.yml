@@ -59,5 +59,7 @@ jobs:
 
     - name: Delete the review apps
       run: |
+        cat webapplist.json
+        jq -j '.[].id' webapplist.json
         jq -j '.[].id+" "' webapplist.json
         WEBAPP_ID_LIST=$(jq -j '.[].id+" "' webapplist.json) && echo $WEBAPP_ID_LIST && az webapp delete --ids $WEBAPP_ID_LIST --keep-empty-plan
