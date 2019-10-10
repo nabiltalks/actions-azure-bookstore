@@ -60,7 +60,7 @@ jobs:
     - name: Get the review apps
       env:
         RESOURCE_GROUP: bookstore
-        QUERY: ${{ format("[?tags.ref=='{0}'&&tags.type=='{1}']", github.ref, 'review') }}
+        QUERY: ${{ format('[?tags.ref==\'{0}\'&&tags.type==\'{1}\']', github.ref, 'review') }}
       run: |
         echo $QUERY
         az webapp list --resource-group $RESOURCE_GROUP --query "$QUERY" > webapp-list.json
