@@ -49,7 +49,7 @@ jobs:
       env:
         RESOURCE_GROUP: bookstore
         GITHUB_HEAD_REF: ${{ format('refs/heads/{0}', github.head_ref) }}
-        run: |
+      run: |
           az webapp list --resource-group $RESOURCE_GROUP --query "[?tags.ref=='$GITHUB_HEAD_REF'&&tags.type=='review']" > webapp-list.json
           filesize=$(wc -c < webapp-list.json); if [ "$filesize" -eq 3 ]; then exit 0; else echo 'No webapp found'; fi
           WEBAPP_ID_LIST=$(jq -j '.[].id+" "' webapp-list.json) && az webapp delete --ids $WEBAPP_ID_LIST --keep-empty-plan
