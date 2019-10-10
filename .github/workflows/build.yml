@@ -55,9 +55,8 @@ jobs:
         RESOURCE_GROUP: bookstore
         QUERY: ${{ format('[?tags.ref=="{0}"&&tags.type=="{1}"]', github.ref, 'review') }}
       run: |
-        az webapp list --resource-group $RESOURCE_GROUP --query "$QUERY" > webapp-list.json
+        az webapp list --resource-group $RESOURCE_GROUP --query "$QUERY" > webapplist.json
 
     - name: Delete the review apps
       run: |
-          filesize=$(wc -c < webapp-list.json); if [ "$filesize" -eq 3 ]; then echo 'No webapp found' && exit 0; else echo 'Webapps found'; fi
-          WEBAPP_ID_LIST=$(jq -j '.[].id+" "' webapp-list.json) && echo $WEBAPP_ID_LIST && az webapp delete --ids $WEBAPP_ID_LIST --keep-empty-plan
+          WEBAPP_ID_LIST=$(jq -j '.[].id+" "' webapplist.json) && echo $WEBAPP_ID_LIST && az webapp delete --ids $WEBAPP_ID_LIST --keep-empty-plan
