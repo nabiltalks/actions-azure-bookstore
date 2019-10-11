@@ -22,8 +22,7 @@ jobs:
     - name: Login to Azure
       uses: azure/actions/login@master
       with:
-        creds: dummy
-#        creds: ${{ secrets.AZURE_CREDENTIALS_REVIEW }}
+        creds: ${{ secrets.AZURE_CREDENTIALS_REVIEW }}
 
     - name: Create the review app
       env:
