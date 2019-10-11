@@ -6,6 +6,7 @@ DEPLOYMENT_STATUS_URL=$(jq -r .deployment.statuses_url $GITHUB_EVENT_PATH)
 DEPLOYMENT_ENVIRONMENT=$(jq -r .deployment.environment $GITHUB_EVENT_PATH)
 
 DESCRIPTION="Deploying to $DEPLOYMENT_ENVIRONMENT"
+LOG_URL="https://github.com/$GITHUB_REPOSITORY/actions"
 
 JSON_STRING=$( jq -n \
                   --arg desc "$DESCRIPTION" \
