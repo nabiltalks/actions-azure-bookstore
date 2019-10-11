@@ -13,6 +13,12 @@ jobs:
     steps:
     - name: Checking out the code
       uses: actions/checkout@v1
+
+    - name: Set deployment status in-progress
+      run: ./.github/scripts/deployment-status-progress.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
     - name: Login to Azure
       uses: azure/actions/login@master
       with:
@@ -39,8 +45,14 @@ jobs:
         app-name: ${{ format('{0}-{1}', 'bookstore-review', github.sha) }}
         images: ${{ format('{0}/{1}/{2}:{3}', 'docker.pkg.github.com', github.repository, 'bookstore', github.sha) }}
 
-    - name: Set deployment status
-      run: ./.github/scripts/udpate-deployment-status.sh
+    - name: Set deployment status success
+      run: ./.github/scripts/deployment-status-success.sh
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TARGET_URL: ${{ format('https://bookstore-review-{0}.azurewebsites.net', github.sha) }}
+
+    - name: Set deployment status failure
+      run: ./.github/scripts/deployment-status-failure.sh
+      if: failure()
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
