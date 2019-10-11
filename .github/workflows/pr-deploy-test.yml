@@ -13,7 +13,7 @@ jobs:
     steps:
     - name: Checking out the code
       uses: actions/checkout@v1
-      
+
     - name: Set deployment status in-progress
       run: ./.github/scripts/deployment-status-progress.sh
       env:
@@ -50,3 +50,9 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         TARGET_URL: ${{ format('https://bookstore-review-{0}.azurewebsites.net', github.sha) }}
+
+    - name: Set deployment status failure
+      run: ./.github/scripts/deployment-status-failure.sh
+      if: failure()
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
