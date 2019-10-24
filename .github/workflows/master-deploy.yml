@@ -43,7 +43,7 @@ jobs:
     - name: Login to Azure
       uses: azure/actions/login@master
       with:
-        creds: ${{ secrets.AZURE_CREDENTIALS_REVIEW }}
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
 
     - name: Deploy the container
       uses: azure/appservice-actions/webapp-container@master
