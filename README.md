@@ -13,7 +13,7 @@ mvn --version
 
 Create a `bookstore` resource group and a `bookstore-app-service-plan` service plan in Azure.
 
-Run the following command (need to log in Azure first) and use the JSON output has the value of the `AZURE_CREDENTIALS_REVIEW` secret
+Run the following command (need to log in Azure first) and use the JSON output has the value of the `AZURE_CREDENTIALS` secret
 
 ```
 az ad sp create-for-rbac --name "bookstore-review" --role contributor \
