@@ -5,7 +5,8 @@
     <artifactId>reading-time-app</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <url>https://octodemo.com/office-tools/reading-time-app</url>
+    <url>https://github.com/octodemo/azure-bookstore</url>
+    <description>A Java example project to demonstrate a Java development stack with Maven, GitHub Actions, GitHub Package Registry and Azure.</description>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -54,7 +55,7 @@
         </dependency>
     </dependencies>
     <build>
-        <finalName>ROOT</finalName>
+        <finalName>reading-time-app</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -62,7 +63,7 @@
                 <version>2.5</version>
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                </configuration>                
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -143,16 +144,6 @@
                     <debug>true</debug>
                 </configuration>
             </plugin>
-            <plugin>
-		<groupId>com.heroku.sdk</groupId>
-		<artifactId>heroku-maven-plugin</artifactId>
-		<version>1.1.3</version>
-                  <configuration>
-                           <includes>
-                                    <include>src/main/webapp</include>
-                           </includes>
-                  </configuration>
-	   </plugin>
         </plugins>
     </build>
     <reporting>
@@ -183,58 +174,46 @@
             </plugin>
         </plugins>
     </reporting>
-    <description>A Java example project to demonstrate a Java development stack with Maven, Travis CI and Heroku deployments.</description>
     <distributionManagement>
-  	<repository>
-		<id>central</id>
-		<name>githubdemo-releases</name>
-        	<url>https://githubdemo.jfrog.io/githubdemo/libs-release-local</url>
-    	</repository>
-	<snapshotRepository>
-		<id>snapshots</id>
-		<name>githubdemo-snapshots</name>
-		<url>https://githubdemo.jfrog.io/githubdemo/libs-snapshot-local</url>
-	</snapshotRepository>
+    	<repository>
+    		<id>GitHub Pacakage Registry</id>
+    		<name>octodemo/azure-bookstore/bookstore</name>
+        <url>https://docker.pkg.github.com</url>
+      </repository>
     </distributionManagement>
-    <ciManagement>
-        <system>Travis CI</system>
-        <url>https://travisci.octodemoapps.com/office-tools/reading-time-app</url>
-    </ciManagement>
     <issueManagement>
-        <url>https://octodemo.com/baseline/reading-time-demo/issues</url>
-        <system>GitHub Issues</system>
+      <url>https://github.com/octodemo/azure-bookstore/issues</url>
+      <system>GitHub Issues</system>
     </issueManagement>
-
     <profiles>
-	<profile>
-		<id>coverage-per-test</id>
-		<build>
-		<plugins>
-		  <plugin>
-		    <groupId>org.apache.maven.plugins</groupId>
-		    <artifactId>maven-surefire-plugin</artifactId>
-		    <!-- Minimal supported version is 2.4 -->
-		    <version>2.13</version>
-		    <configuration>
-		      <properties>
-			<property>
-			  <name>listener</name>
-			  <value>org.sonar.java.jacoco.JUnitListener</value>
-			</property>
-		      </properties>
-		    </configuration>
-		  </plugin>
-		</plugins>
-		</build>
-
-		<dependencies>
-			<dependency>
-			  <groupId>org.sonarsource.java</groupId>
-			  <artifactId>sonar-jacoco-listeners</artifactId>
-			  <version>3.8</version>
-			  <scope>test</scope>
-			</dependency>
-		</dependencies>
-	</profile>
-  </profiles>
+	     <profile>
+		       <id>coverage-per-test</id>
+		       <build>
+		           <plugins>
+            		  <plugin>
+            		    <groupId>org.apache.maven.plugins</groupId>
+            		    <artifactId>maven-surefire-plugin</artifactId>
+            		    <!-- Minimal supported version is 2.4 -->
+            		    <version>2.13</version>
+            		    <configuration>
+            		      <properties>
+            			<property>
+            			  <name>listener</name>
+            			  <value>org.sonar.java.jacoco.JUnitListener</value>
+            			</property>
+            		      </properties>
+            		    </configuration>
+            		  </plugin>
+            	</plugins>
+		      </build>
+      		<dependencies>
+      			<dependency>
+      			  <groupId>org.sonarsource.java</groupId>
+      			  <artifactId>sonar-jacoco-listeners</artifactId>
+      			  <version>3.8</version>
+      			  <scope>test</scope>
+      			</dependency>
+      		</dependencies>
+	     </profile>
+     </profiles>
 </project>

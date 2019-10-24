@@ -1,0 +1,43 @@
+name: Deploy to QA on Azure
+
+on:
+  deployment
+
+jobs:
+
+  deploy:
+    name: Deploy
+    if: github.event.deployment.environment == 'qa'
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checking out the code
+      uses: actions/checkout@v1
+
+    - name: Set deployment status in-progress
+      run: ./.github/scripts/deployment-status-progress.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Login to Azure
+      uses: azure/actions/login@master
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+    - name: Deploy the container
+      uses: azure/appservice-actions/webapp-container@master
+      with:
+        app-name: bookstore-qa
+        images: ${{ format('{0}/{1}/{2}:{3}', 'docker.pkg.github.com', github.repository, 'bookstore', github.sha) }}
+
+    - name: Set deployment status success
+      run: ./.github/scripts/deployment-status-success.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        TARGET_URL: https://bookstore-qa.azurewebsites.net
+
+    - name: Set deployment status failure
+      run: ./.github/scripts/deployment-status-failure.sh
+      if: failure()
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
