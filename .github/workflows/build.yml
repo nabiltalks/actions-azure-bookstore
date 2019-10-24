@@ -19,9 +19,8 @@ jobs:
       uses: actions/checkout@v1
     - name: Test and Package      
       run: mvn package war:war
-    
     - name: Save artifacts
       uses: actions/upload-artifact@master
       with:
         name: '${{matrix.os}}-${{matrix.java}}.WAR'
-        path: target/ROOT.war
+        path: .
