@@ -16,7 +16,7 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
     - name: Test and Package      
-      run: mvn package war:war --file pom.xml 
+      run: mvn package war:war
     
     - name: Save artifacts
       uses: actions/upload-artifact@master
