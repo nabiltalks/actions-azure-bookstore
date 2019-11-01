@@ -21,7 +21,7 @@ jobs:
       run: ./.github/scripts/delete-deployments.sh
 
     - name: Login to Azure
-      uses: azure/actions/login@master
+      uses: azure/login@master
       with:
         creds: ${{ secrets.AZURE_CREDENTIALS }}
 
