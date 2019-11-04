@@ -28,3 +28,12 @@ jobs:
       with:
         name: '${{matrix.os}}-${{matrix.java}}.WAR'
         path: .
+    - name: Build the Docker image
+      run: docker build . --file Dockerfile --tag docker.pkg.github.com/$GITHUB_REPOSITORY/bookstore-${{ matrix.os }}-${{ matrix.java }}:$GITHUB_SHA
+    - name: Publish to GitHub Package Registry
+      env:
+        DOCKER_TOKEN: ${{secrets.GPR_TOKEN}}
+        DOCKER_USER: <token>
+      run: |
+        docker login docker.pkg.github.com -u $DOCKER_USER -p $DOCKER_TOKEN
+        docker push docker.pkg.github.com/$GITHUB_REPOSITORY/bookstore:$GITHUB_SHA
