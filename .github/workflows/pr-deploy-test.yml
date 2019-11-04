@@ -43,7 +43,7 @@ jobs:
         WEBAPP_NAME_PREFIX: bookstore-review
       with:
         app-name: ${{ format('{0}-{1}', 'bookstore-review', github.sha) }}
-        images: ${{ format('{0}/{1}/{2}:{3}', 'docker.pkg.github.com', github.repository, 'bookstore-ubuntu-18.04-1.8', github.sha) }}
+        images: ${{ format('{0}/{1}/{2}:{3}', 'docker.pkg.github.com', github.repository, 'bookstore', github.sha) }}
 
     - name: Set deployment status success
       run: ./.github/scripts/deployment-status-success.sh
