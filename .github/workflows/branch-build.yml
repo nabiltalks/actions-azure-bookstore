@@ -36,4 +36,4 @@ jobs:
         DOCKER_USER: <token>
       run: |
         docker login docker.pkg.github.com -u $DOCKER_USER -p $DOCKER_TOKEN
-        docker push docker.pkg.github.com/$GITHUB_REPOSITORY/bookstore:$GITHUB_SHA
+        docker push docker.pkg.github.com/$GITHUB_REPOSITORY/bookstore-${{ matrix.os }}-${{ matrix.java }}:$GITHUB_SHA
