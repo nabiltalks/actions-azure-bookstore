@@ -7,7 +7,8 @@ on:
 
 jobs:
   build:
-    name: Build
+    # The name below is a required context for deployement. The value should match what's in .github/deploy.yml on master 
+    name: Build, Test and Package
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
