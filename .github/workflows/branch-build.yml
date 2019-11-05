@@ -1,4 +1,5 @@
-name: Build, Test and Publish
+# The name below is a required context for deployement. The value should match what's in .github/deploy.yml on master 
+name: Build, Test and Package
 
 on:
   push:
@@ -7,8 +8,7 @@ on:
 
 jobs:
   build:
-    # The name below is a required context for deployement. The value should match what's in .github/deploy.yml on master 
-    name: Build, Test and Package
+    name: Build
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
