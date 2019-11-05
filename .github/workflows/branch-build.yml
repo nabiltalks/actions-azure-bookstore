@@ -1,5 +1,4 @@
-# The name below is a required context for deployement. The value should match what's in .github/deploy.yml on master 
-name: Build, Test and Package
+name: Build, Test and Publish
 
 on:
   push:
@@ -8,6 +7,7 @@ on:
 
 jobs:
   build:
+    # The name below is the base of a required context for deployement. The generated value (i.e. `Build (ubuntu-18.04, 1.8)`) should match what's in `.github/deploy.yml` on `master` 
     name: Build
     runs-on: ${{ matrix.os }}
     strategy:
@@ -23,7 +23,7 @@ jobs:
         java-version: ${{ matrix.java }}
     - name: Checkout
       uses: actions/checkout@v1
-    - name: Test and Package      
+    - name: Test and Package
       run: mvn package war:war
     - name: Save artifacts
       uses: actions/upload-artifact@master
