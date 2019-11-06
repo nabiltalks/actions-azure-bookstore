@@ -31,10 +31,10 @@ jobs:
         name: '${{matrix.os}}-${{matrix.java}}-${{github.sha}}.WAR'
         path: .
     - name: Build the Docker image
-      if: contains(github.matrix.os, 'ubuntu-18.04') && contains(github.matrix.java, '1.8')
+      if: matrix.os == 'ubuntu-18.04' && matrix.java == '1.8'
       run: docker build . --file Dockerfile --tag docker.pkg.github.com/$GITHUB_REPOSITORY/bookstore:$GITHUB_SHA
     - name: Publish to GitHub Package Registry
-      if: contains(github.matrix.os, 'ubuntu-18.04') && contains(github.matrix.java, '1.8')
+      if: matrix.os == 'ubuntu-18.04' && matrix.java == '1.8'
       env:
         DOCKER_TOKEN: ${{secrets.GPR_TOKEN}}
         DOCKER_USER: <token>
