@@ -7,7 +7,7 @@ on:
 
 jobs:
   build:
-    # The name below is the base of a required context for deployement. The generated value (i.e. `Build (ubuntu-18.04, 1.8)`) should match what's in `.github/deploy.yml` on `master` 
+    # The name below is the base of a required context for deployement. The generated value (i.e. `Build (ubuntu-18.04, 1.8)`) should match what's in `.github/deploy.yml` on `master`
     name: Build
     runs-on: ${{ matrix.os }}
     strategy:
@@ -26,15 +26,15 @@ jobs:
     - name: Test and Package
       run: mvn package war:war
     - name: Save artifacts
-      uses: actions/upload-artifact@master
+      uses: actions/upload-artifact@v1
       with:
-        name: '${{matrix.os}}-${{matrix.java}}.WAR'
+        name: '${{matrix.os}}-${{matrix.java}}-${{github.sha}}.WAR'
         path: .
     - name: Build the Docker image
-      if: github.matrix.os == 'ubuntu-18.04'
+      if: contains(github.matrix.os, 'ubuntu-18.04') && contains(github.matrix.java, '1.8')
       run: docker build . --file Dockerfile --tag docker.pkg.github.com/$GITHUB_REPOSITORY/bookstore:$GITHUB_SHA
     - name: Publish to GitHub Package Registry
-      if: github.matrix.os == 'ubuntu-18.04'
+      if: contains(github.matrix.os, 'ubuntu-18.04') && contains(github.matrix.java, '1.8')
       env:
         DOCKER_TOKEN: ${{secrets.GPR_TOKEN}}
         DOCKER_USER: <token>
