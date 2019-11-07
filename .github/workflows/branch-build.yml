@@ -23,6 +23,14 @@ jobs:
         java-version: ${{ matrix.java }}
     - name: Checkout
       uses: actions/checkout@v1
+    - name: Cache maven packages
+      uses: actions/cache@v1
+      if: matrix.os == 'ubuntu-18.04' || matrix.os == 'macOS-10.14'
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-mvn-java-${{ matrix.java }}-${{ hashFiles('**/pom.xml') }}
+        restore-keys: |
+          ${{ runner.os }}-mvn-java-${{ matrix.java }}-
     - name: Test and Package
       run: mvn package war:war
     - name: Save artifacts
