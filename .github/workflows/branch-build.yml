@@ -5,18 +5,23 @@ on:
     branches-ignore:	
     - master	
 
-jobs:	
+jobs:
+  build:
+    # The name below is the base of a required context for deployement. The generated value (i.e. `Build (ubuntu-18.04, 1.8)`) should match what's in `.github/deploy.yml` on `master`
+    name: Build, Test and Package
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: ['ubuntu-18.04', 'macOS-10.14']
+        java: [ '1.7', '1.8', '1.9']
 
-  build:	
-    name: Build, Test and Package	
-    runs-on: ubuntu-18.04	
-
-    steps:	
-      - name: Set up JDK 1.8	
-        uses: actions/setup-java@v1	
-        with:	
-          java-version: 1.8	
-      - name: Checkout	
+    steps:
+      - name: Set up JDK ${{ matrix.java }}
+        uses: actions/setup-java@v1
+        with:
+          java-version: ${{ matrix.java }}
+      - name: Checkout
         uses: actions/checkout@v1
       - name: Test and Package
         run: mvn package war:war
