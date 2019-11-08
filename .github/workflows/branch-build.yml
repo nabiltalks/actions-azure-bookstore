@@ -28,7 +28,7 @@ jobs:
       if: matrix.os == 'ubuntu-18.04' || matrix.os == 'macOS-10.14'
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-mvn-java-${{ matrix.java }}-${{ hashFiles('**/pom.xml') }}
+        key: ${{ runner.os }}-mvn-java-${{ matrix.java }}
         restore-keys: |
           mvn-${{ runner.os }}
     - name: Test and Package
