@@ -30,7 +30,7 @@ jobs:
         path: ~/.m2/repository
         key: ${{ runner.os }}-mvn-java-${{ matrix.java }}-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
-          ${{ runner.os }}-mvn-java-${{ matrix.java }}-
+          mvn-${{ runner.os }}
     - name: Test and Package
       run: mvn package war:war
     - name: Save artifacts
