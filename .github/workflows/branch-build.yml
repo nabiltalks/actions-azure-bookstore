@@ -23,6 +23,15 @@ jobs:
         java-version: ${{ matrix.java }}
     - name: Checkout
       uses: actions/checkout@v1
+
+    # Caching for Maven!
+    - name: Cache maven packages
+      uses: actions/cache@v1
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-mvn-java-${{ matrix.java }}
+        restore-keys: |
+          mvn-${{ runner.os }}
     - name: Test and Package
       run: mvn package war:war
     - name: Save artifacts
