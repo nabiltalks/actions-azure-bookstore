@@ -29,9 +29,9 @@ jobs:
       uses: actions/cache@v1
       with:
         path: ~/.m2/repository
-        key: ${{ runner.os }}-mvn-java-${{ matrix.java }}
+        key: ${{ runner.os }}-mvn-java-${{ matrix.java }}-${{ hashFiles('**/pom.xml') }}
         restore-keys: |
-          mvn-${{ runner.os }}
+          mvn-${{ runner.os}}-${{ matrix.java }}
     - name: Test and Package
       run: mvn package war:war
     - name: Save artifacts
